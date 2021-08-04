@@ -4,6 +4,6 @@ export default {
         port:3306,
         user:'admin',
         password:'admin',
-        database:'doctor_plus'
+        database:'db_category'
     }
 }
