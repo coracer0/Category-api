@@ -13,50 +13,30 @@ class UserController {
         res.json(result);
     }
 
-    /*
-    
-    */
-    public async listaMedicos(req: Request,res :Response){
-        const result = await dao.listaMedico();
-        res.json(result);
-    }
-    /**
-     *
-     */
-    public async listaPacientes(req: Request,res: Response){
-        const result = await dao.listaPaciente();
-        res.json(result);
-    }
     /**
      *  Nombre: insert
-     *  Descripcion: insertar datos de un nuevo usuario
+     *  Descripcion: insertar datos de un nuevo username
      *  Resultado: json con mensaje.
      */
     public async insert(req: Request, res: Response) {
         try {
-            const { usuario, password, nombre, apellido_paterno, apellido_materno,sexo,fecha_nacimiento,idRol  } = req.body;
+            const { username, password, nombre,apellidos } = req.body;
         
         // verificar parametros 
-        if(usuario == null || password == null || idRol == null|| nombre==null || apellido_paterno==null || apellido_materno==null ||fecha_nacimiento==null || sexo==null) {
+        if(username == null || password == null ||nombre==null || apellidos==null) {
             return res.status(409).json({message: "Los campos son requeridos"});
         }
 
         // Verificar longitud de caracteres
         
-        if(usuario.length > 150){
-            return res.status(500).json({message: "La longitud maxima del usuario es de 150 caracteres"});
+        if(username.length > 150){
+            return res.status(500).json({message: "La longitud maxima del username es de 150 caracteres"});
         }
 
-        // Verificar nombre de usuario
-        const verify = await dao.verifyUser(usuario);
+        // Verificar nombre de username
+        const verify = await dao.verifyUser(username);
         if(verify.length > 0){
-            return res.status(500).json({message: "El usuario ya existe"});
-        }
-
-        // Verificar Rol
-        const verifyRol = await dao.verifyRol(idRol);
-        if(verifyRol.length <= 0){
-            return res.status(500).json({message: "El rol no existe o no esta diponible"});
+            return res.status(500).json({message: "El username ya existe"});
         }
 
         // Insercion de datos
@@ -64,14 +44,10 @@ class UserController {
 
         // Llenar objetos
         const userObject = {
-            usuario,
+            username,
             password : encryptedPassword,
             nombre,
-            apellido_paterno,
-            apellido_materno,
-            sexo,
-            fecha_nacimiento,
-            idRol
+            apellidos
         }
 
         const result = await dao.insert(userObject);
