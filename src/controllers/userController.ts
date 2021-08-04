@@ -39,6 +39,7 @@ class UserController {
             return res.status(500).json({message: "El username ya existe"});
         }
 
+
         // Insercion de datos
         const encryptedPassword = await utils.hashPassword(password);
 
