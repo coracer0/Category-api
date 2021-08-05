@@ -4,7 +4,7 @@ class CategoryDAO {
     const result = await pool.then(async (connection) => {
       return await connection.query(
         "Select c.cveCategoria, c.nombre, c.descripcion, c.tipo, concat(u.nombre,' ',u.apellidos)persona " +
-          "from categoria c INNER JOIN usuario u on c.cveRegistro = u.cveUsuario order by c.cveCategoria desc"
+          "from categoria c INNER JOIN usuario u on c.cveRegistro = u.cveUsuario"
       );
     });
     return result;
@@ -22,6 +22,16 @@ class CategoryDAO {
       return await connection.query(
         "SELECT * FROM categoria where nombre = ?",
         category
+      );
+    });
+    return result;
+  }
+
+  public async update(category: any) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query(
+        "UPDATE categoria SET ? WHERE cveCategoria = ?",
+        [category, category.cveCategoria]
       );
     });
     return result;
