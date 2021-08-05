@@ -12,6 +12,7 @@ class CategoryRoutes{
     config(): void{
         this.router.get('/',[checkJwt],categoryController.lista);
         this.router.put('/',[checkJwt],categoryController.insert);        
+        this.router.post('/',[checkJwt],categoryController.update);        
     }
 
 }

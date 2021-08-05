@@ -55,5 +55,27 @@ class CategoryController {
       res.status(500).json({ message: ex.message });
     }
   }
+
+
+  public async update (req: Request, res: Response) {
+    try {
+      const category = req.body;
+      if (category.cveCategoria ==null){
+        return res.status(500).json({ message:"No se puede actualizar"});
+      }
+
+      const result = await dao.update(category);
+      
+      if(result.affectedRows > 0){
+        res.json({ message: "Actualizado Correctamente"});
+      }else{
+        res.status(400).json({ message: result.message});
+      }
+
+
+    } catch (error) {
+      res.status(500).json({ message: error.message});
+    }
+  }
 }
 export const categoryController = new CategoryController();
