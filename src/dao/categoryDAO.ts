@@ -36,5 +36,15 @@ class CategoryDAO {
     });
     return result;
   }
+
+  public async delete(cveCategoria: number) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query(
+        "DELETE FROM categoria WHERE cveCategoria = ?",
+        cveCategoria
+      );
+    });
+    return result;
+  }
 }
 export const dao = new CategoryDAO();

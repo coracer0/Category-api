@@ -77,5 +77,30 @@ class CategoryController {
       res.status(500).json({ message: error.message});
     }
   }
+
+  public async delete (req: Request, res: Response) {
+    try {
+      const {cveCategoria} =req.params;
+
+      if(cveCategoria ===null){
+        return res.status(500).json({ message:"No se puede Eliminar"});   
+      }
+
+      const result = await dao.delete(parseInt(cveCategoria));
+
+      if(result.affectedRows > 0){
+        res.json({ message: "Eliminado Correctamente"});
+      }else{
+        res.status(400).json({ message: result.message});
+      }
+
+
+
+      
+    } catch (error) {
+      res.status(500).json({ message: error.message});
+    }
+  }
+
 }
 export const categoryController = new CategoryController();
